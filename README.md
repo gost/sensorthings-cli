@@ -10,6 +10,13 @@ Get the cli tool version
 ```
 $ sti version 
 ```
+### Login
+
+Login to the given SensorThings server
+
+```
+$ sti login http://gost.geodan.nl/v1.0
+```
 
 ### Get
 
@@ -22,6 +29,12 @@ Get the SensorThings Sensors
 
 ```
 $ sti get sensors 
+```
+
+Get the SensorThings Datastreams
+
+```
+$ sti get datastreams 
 ```
 
 ### Create
@@ -38,6 +51,13 @@ Create a SensorThings Sensor
 $ sti create sensor
 ```
 
+Create a SensorThings Datastream
+
+```
+$ sti create datastream
+```
+
+
 ### Delete
 
 Delete a SensorThings Things
@@ -51,6 +71,14 @@ Delete a SensorThings Sensor
 ```
 $ sti delete sensor {$name}
 ```
+
+Delete a SensorThings Datastream
+
+```
+$ sti delete datastream {$name}
+```
+
+
 
 
 
