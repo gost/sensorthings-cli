@@ -1,6 +1,15 @@
 # sensorthings-cli
 CLI for performing SensorThings tasks
 
+## Installation
+
+``` 
+$ go get github.com/geodan/sensorthings-cli/cmd/sti
+
+$ sti
+
+```
+
 ## Features
 
 ### Version
