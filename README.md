@@ -3,10 +3,16 @@ CLI for performing SensorThings tasks
 
 ## Installation
 
+### Go environment
 ``` 
 $ go get github.com/geodan/sensorthings-cli/cmd/sti
 
 $ sti
+```
+
+### Docker environment
+``` 
+$ docker run geodan/sensorthings-cli
 
 ```
 
