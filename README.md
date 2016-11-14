@@ -14,6 +14,9 @@ $ sti
 ``` 
 $ docker run geodan/sensorthings-cli
 
+with parameters:
+
+$ docker run geodan/sensorthings-cli version
 ```
 
 ## Features
