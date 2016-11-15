@@ -6,12 +6,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	// VERSION is set during build
+	VERSION string
+)
+
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Get SensorThings cli version",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("0.0.0.0.1")
+		fmt.Println(VERSION)
 	},
 }
 
