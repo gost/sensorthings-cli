@@ -8,14 +8,13 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // loginCmd represents the login command
 
 var loginCmd = &cobra.Command{
-	Use:   "login",
-	Short: "A brief description of your command",
+	Use:   "login {$servername}",
+	Short: "Login to the given SensorThings server",
 	Run: func(cmd *cobra.Command, args []string) {
 		err := RunLogin(cmd, args)
 		if err != nil {
@@ -35,16 +34,13 @@ func RunLogin(cmd *cobra.Command, args []string) error {
 		return cmd.Help()
 	}
 	gitOauth := args[0]
-	configPath := os.Getenv("HOME")
-	configName := ".sti"
+	configPath := ""
+	configName := ".sensorthings-cli"
 	configType := "yaml"
 	var configYaml []byte
 	var madeConfigFile = false
 	configFile := path.Join(configPath,
 		(configName + "." + configType))
-	viper.SetConfigName(configName)
-	viper.AddConfigPath(configPath)
-	viper.SetConfigType(configType)
 
 	if _, err := os.Stat(configFile); err != nil {
 		var file, err = os.Create(configFile)
