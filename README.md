@@ -1,3 +1,5 @@
+
+
 # sensorthings-cli
 CLI for performing SensorThings tasks
 
@@ -19,6 +21,7 @@ with parameters:
 $ docker run geodan/sensorthings-cli version
 ```
 
+
 ## Features
 
 ### Version
@@ -28,6 +31,9 @@ Get the cli tool version
 ```
 $ sti version 
 ```
+
+status: implemented
+
 ### Login
 
 Login to the given SensorThings server
@@ -35,6 +41,8 @@ Login to the given SensorThings server
 ```
 $ sti login http://gost.geodan.nl/v1.0
 ```
+status: implemented
+
 
 ### Get
 
@@ -45,11 +53,15 @@ $ sti get things
 ```
 Get the SensorThings Sensors
 
+status: todo
+
 ```
 $ sti get sensors 
 ```
 
 Get the SensorThings Datastreams
+
+status: todo
 
 ```
 $ sti get datastreams 
@@ -63,11 +75,15 @@ Create a SensorThings Things
 $ sti create thing 
 ```
 
+status: todo
+
 Create a SensorThings Sensor
 
 ```
 $ sti create sensor
 ```
+
+status: todo
 
 Create a SensorThings Datastream
 
@@ -75,6 +91,7 @@ Create a SensorThings Datastream
 $ sti create datastream
 ```
 
+status: todo
 
 ### Delete
 
@@ -83,18 +100,21 @@ Delete a SensorThings Things
 ```
 $ sti delete thing {$name}
 ```
+status: todo
 
 Delete a SensorThings Sensor
 
 ```
 $ sti delete sensor {$name}
 ```
+status: todo
 
 Delete a SensorThings Datastream
 
 ```
 $ sti delete datastream {$name}
 ```
+status: todo
 
 
 
