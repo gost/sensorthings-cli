@@ -7,7 +7,7 @@ CLI for performing SensorThings tasks
 
 ### Go environment
 ``` 
-$ go get github.com/geodan/sensorthings-cli/cmd/sti
+$ go get github.com/geodan/sensorthings-cli/sti
 
 $ sti
 ```
