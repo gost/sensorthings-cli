@@ -7,6 +7,7 @@ import (
 	"path"
 	"strings"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/spf13/cobra"
 )
 
@@ -33,7 +34,14 @@ func RunLogin(cmd *cobra.Command, args []string) error {
 	if len(args) != 1 {
 		return cmd.Help()
 	}
-	gitOauth := args[0]
+
+	validURL := govalidator.IsURL(args[0])
+
+	if !validURL {
+		exitWithError(fmt.Errorf("Not a valid url: %s", args[0]))
+	}
+
+	serverURL := args[0]
 	configPath := ""
 	configName := ".sensorthings-cli"
 	configType := "yaml"
@@ -48,7 +56,7 @@ func RunLogin(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			exitWithError(fmt.Errorf("Could not create config: %s", configFile))
 		}
-		configYaml = []byte("st_server: " + gitOauth + "\n")
+		configYaml = []byte("st_server: " + serverURL + "\n")
 
 		defer file.Close()
 		madeConfigFile = true
@@ -61,7 +69,7 @@ func RunLogin(cmd *cobra.Command, args []string) error {
 		lines := strings.Split(string(input), "\n")
 
 		isUpdate := false
-		gitLine := "st_server: " + gitOauth
+		gitLine := "st_server: " + serverURL
 		for i, line := range lines {
 			if strings.Contains(line, "st_server: ") {
 				isUpdate = true
