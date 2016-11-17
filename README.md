@@ -48,12 +48,15 @@ status: implemented
 
 Get the SensorThings Things
 
+status: partly implemented
+
 ```
 $ sti get things 
 ```
+
 Get the SensorThings Sensors
 
-status: todo
+status: partly implemented
 
 ```
 $ sti get sensors 
