@@ -3,6 +3,8 @@
 # sensorthings-cli
 CLI for performing SensorThings tasks
 
+![Demo](sti_Demo.gif)
+
 ## Installation
 
 ### Go environment
