@@ -6,6 +6,7 @@ var cmdGetObservedProperties = &cobra.Command{
 	Use:   "observedproperties",
 	Short: "Get SensorThing ObservedProperties: sti get observedproperties",
 	Run: func(cmd *cobra.Command, args []string) {
-		getSTEntitys("ObservedProperties")
+		fields := []string{"Iot_id","Name"}
+		getSTEntitys("ObservedProperties", fields)
 	},
 }

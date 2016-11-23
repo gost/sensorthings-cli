@@ -7,6 +7,7 @@ var cmdGetThings = &cobra.Command{
 	Short: "Get SensorThing Things: sti get things",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		getSTEntitys("Things")
+		fields := []string{"Iot_id", "Name"}
+		getSTEntitys("Things", fields)
 	},
 }

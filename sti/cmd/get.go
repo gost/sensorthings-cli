@@ -21,6 +21,7 @@ func init() {
 	getCmd.AddCommand(cmdGetLocations)
 	getCmd.AddCommand(cmdGetFeaturesOfInterest)
 	getCmd.AddCommand(cmdGetHistoricalLocations)
+	getCmd.AddCommand(cmdGetObservations)
 
 	RootCmd.AddCommand(getCmd)
 }

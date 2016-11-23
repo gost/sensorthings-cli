@@ -6,6 +6,8 @@ var cmdGetFeaturesOfInterest = &cobra.Command{
 	Use:   "featuresofinterest",
 	Short: "Get SensorThing FeaturesOfInterest: sti get featuresofinterest",
 	Run: func(cmd *cobra.Command, args []string) {
-		getSTEntitys("FeaturesOfInterest")
+		fields := []string{"Iot_id","Name"}
+
+		getSTEntitys("FeaturesOfInterest",fields)
 	},
 }
