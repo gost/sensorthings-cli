@@ -17,5 +17,10 @@ func init() {
 	getCmd.AddCommand(cmdGetThings)
 	getCmd.AddCommand(cmdGetSensors)
 	getCmd.AddCommand(cmdGetDatastreams)
+	getCmd.AddCommand(cmdGetObservedProperties)
+	getCmd.AddCommand(cmdGetLocations)
+	getCmd.AddCommand(cmdGetFeaturesOfInterest)
+	getCmd.AddCommand(cmdGetHistoricalLocations)
+
 	RootCmd.AddCommand(getCmd)
 }
