@@ -16,11 +16,11 @@ $ sti
 
 ### Docker environment
 ``` 
-$ docker run geodan/sensorthings-cli
+$ docker run geodan/sti
 
 with parameters:
 
-$ docker run geodan/sensorthings-cli version
+$ docker run geodan/sti version
 ```
 
 
