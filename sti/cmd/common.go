@@ -29,24 +29,48 @@ func getSTEntitys(name string, fields []string) {
 				case string:
 					fmt.Printf("%v", v)
 				default:
-					// fmt.Printf("I don't know, ask stackoverflow.")
 				}
 				fmt.Printf(", ")
 			}
 			fmt.Println()
 		}
+	} else {
+		fmt.Println("Please use 'sti login' first...")
 	}
+}
+
+// BaseEntity is the entry point for an entity
+type BaseEntity struct {
+	Iot_id  interface{} `json:"@iot.id,omitempty"`
+	NavSelf string      `json:"@iot.selfLink,omitempty"`
 }
 
 // Thing structure
 type Thing struct {
-	Iot_id      interface{} `json:"@iot.id,omitempty"`
+	BaseEntity
 	Name        string
 	Description string
 }
 
+type Observation struct {
+	BaseEntity
+	PhenomenonTime string      `json:"phenomenonTime,omitempty"`
+	Result         interface{} `json:"result,omitempty"`
+}
+
+// Thing structure
+type BaseResponse struct {
+	Count int
+}
+
 // ThingsResponse structure
 type ThingsResponse struct {
-	Count int
+	BaseResponse
 	Value []Thing
+}
+
+// ThingsResponse structure
+type ObservationsResponse struct {
+	BaseResponse
+	Value []Observation
 }
