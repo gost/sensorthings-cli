@@ -66,11 +66,54 @@ $ sti get sensors
 
 Get the SensorThings Datastreams
 
-status: todo
+status: partly implemented
 
 ```
 $ sti get datastreams 
 ```
+
+Get the SensorThings ObservedProperties
+
+status: partly implemented
+
+```
+$ sti get observedproperties 
+```
+Get the SensorThings Locations
+
+status: partly implemented
+
+```
+$ sti get locations 
+```
+Get the SensorThings Observations
+
+status: partly implemented
+
+```
+$ sti get observations 
+```
+Get the SensorThings HistoricalLocations
+
+status: partly implemented
+
+```
+$ sti get historicallocations 
+```
+Get the SensorThings FeaturesOfInterest
+
+status: partly implemented
+
+```
+$ sti get featuresofinterest 
+```
+
+
+
+
+
+
+
 
 ### Create
 
