@@ -14,7 +14,11 @@ func getSTEntitys(name string, fields []string) {
 		url := stServer + "/" + name
 		thingsResponse := new(ThingsResponse)
 		fmt.Println("Url: " + url)
-		getJson(url, &thingsResponse)
+		err := getJson(url, &thingsResponse)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 		fmt.Println("Number of " + name + " :" + strconv.Itoa(thingsResponse.Count))
 		for i := 0; i < len(thingsResponse.Value); i++ {
 			e := thingsResponse.Value[i]
