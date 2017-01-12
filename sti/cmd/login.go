@@ -95,9 +95,9 @@ func RunLogin(cmd *cobra.Command, args []string) error {
 	}
 
 	if madeConfigFile {
-		fmt.Printf("Login Succeeded")
+		fmt.Print("Login Succeeded\n")
 	} else {
-		fmt.Printf("Login Succeeded")
+		fmt.Print("Login Succeeded\n")
 	}
 	return nil
 }

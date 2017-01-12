@@ -12,8 +12,7 @@ var cmdGetThings = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Start command get things...")
-
-		fields := []string{"Iot_id", "Name"}
-		getSTEntitys("Things", fields)
+		fields := []string{"ID", "Name"}
+		getSTEntities(EntityTypeThing, fields)
 	},
 }
