@@ -88,7 +88,7 @@ func RunImport(cmd *cobra.Command, args []string) error {
 
 func postEntities(url string, entities []Entity) (map[interface{}]interface{}, error) {
 	idMap := make(map[interface{}]interface{})
-	fmt.Printf("Posting %v\n", url)
+	fmt.Printf("Posting %v entities to %v\n", len(entities),  url)
 
 	for i := len(entities)-1; i >= 0; i-- {
 		e := entities[i]
@@ -103,6 +103,11 @@ func postEntities(url string, entities []Entity) (map[interface{}]interface{}, e
 		}
 		defer resp.Body.Close()
 
+		if resp.StatusCode != 201 {
+			body, _ := ioutil.ReadAll(resp.Body)
+			return  nil, fmt.Errorf(string(body))
+		}
+
 		be := &BaseEntity{}
 		err = json.NewDecoder(resp.Body).Decode(be)
 		if err != nil{
@@ -116,7 +121,7 @@ func postEntities(url string, entities []Entity) (map[interface{}]interface{}, e
 }
 
 func postThings(url string, entities []*Thing, thingLocations []*Relation, locationMap map[interface{}]interface{}) (map[interface{}]interface{}, error) {
-	fmt.Printf("Posting %v\n", url)
+	fmt.Printf("Posting %v entities to %v\n", len(entities),  url)
 	idMap := make(map[interface{}]interface{})
 	for i := len(entities)-1; i >= 0; i-- {
 		e := entities[i]
@@ -147,6 +152,11 @@ func postThings(url string, entities []*Thing, thingLocations []*Relation, locat
 		}
 		defer resp.Body.Close()
 
+		if resp.StatusCode != 201 {
+			body, _ := ioutil.ReadAll(resp.Body)
+			return  nil, fmt.Errorf(string(body))
+		}
+
 		be := &Thing{}
 		err = json.NewDecoder(resp.Body).Decode(be)
 		if err != nil{
@@ -159,7 +169,7 @@ func postThings(url string, entities []*Thing, thingLocations []*Relation, locat
 }
 
 func postDatastreams(url string, entities []*Datastream, thingDatastreams []*Relation, datastreamSensor []*Relation, datastreamObservedProperty []*Relation, thingMap map[interface{}]interface{}, sensorMap map[interface{}]interface{}, observedPropertiesMap map[interface{}]interface{}) error {
-	fmt.Printf("Posting %v\n", url)
+	fmt.Printf("Posting %v entities to %v\n", len(entities),  url)
 
 	for i := len(entities)-1; i >= 0; i-- {
 		e := entities[i]
@@ -222,6 +232,11 @@ func postDatastreams(url string, entities []*Datastream, thingDatastreams []*Rel
 			panic(err)
 		}
 		defer resp.Body.Close()
+
+		if resp.StatusCode != 201 {
+			body, _ := ioutil.ReadAll(resp.Body)
+			return  fmt.Errorf(string(body))
+		}
 
 		be := &Thing{}
 		err = json.NewDecoder(resp.Body).Decode(be)
