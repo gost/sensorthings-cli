@@ -9,7 +9,7 @@ CLI for performing SensorThings tasks
 
 ### Go environment
 ``` 
-$ go get github.com/geodan/sensorthings-cli/sti
+$ go get github.com/gost/sensorthings-cli/sti
 
 $ sti
 ```
@@ -41,7 +41,7 @@ status: implemented
 Login to the given SensorThings server
 
 ```
-$ sti login http://gost.geodan.nl/v1.0
+$ sti login https://gost.geodan.nl/v1.0
 ```
 status: implemented
 
