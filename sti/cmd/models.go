@@ -1,5 +1,7 @@
 package cmd
 
+import 	"github.com/gost/core"
+
 // ArrayResponse is the default response format for sending content back
 type ArrayResponse struct {
 	Count    int    `json:"count,omitempty"`
@@ -9,66 +11,66 @@ type ArrayResponse struct {
 // IDArrayResponse structure
 type IDArrayResponse struct {
 	ArrayResponse
-	Value []*BaseEntity `json:"value"`
+	Value []*core.BaseEntity `json:"value"`
 }
 
 // ThingsResponse structure
 type ThingsResponse struct {
 	ArrayResponse
-	Value []*Thing `json:"value"`
+	Value []*core.Thing `json:"value"`
 }
 
 // ObservationsResponse structure
 type ObservationsResponse struct {
 	ArrayResponse
-	Value []*Observation `json:"value"`
+	Value []*core.Observation `json:"value"`
 }
 
 // DatastreamsResponse structure
 type DatastreamsResponse struct {
 	ArrayResponse
-	Value []*Datastream `json:"value"`
+	Value []*core.Datastream `json:"value"`
 }
 
 // LocationsResponse structure
 type LocationsResponse struct {
 	ArrayResponse
-	Value []*Location `json:"value"`
+	Value []*core.Location `json:"value"`
 }
 
 // HistoricalLocationsResponse structure
 type HistoricalLocationsResponse struct {
 	ArrayResponse
-	Value []*HistoricalLocation `json:"value"`
+	Value []*core.HistoricalLocation `json:"value"`
 }
 
 // SensorsResponse structure
 type SensorsResponse struct {
 	ArrayResponse
-	Value []*Sensor `json:"value"`
+	Value []*core.Sensor `json:"value"`
 }
 
 // ObservedPropertiesResponse structure
 type ObservedPropertiesResponse struct {
 	ArrayResponse
-	Value []*ObservedProperty `json:"value"`
+	Value []*core.ObservedProperty `json:"value"`
 }
 
 // FeaturesOfInterestResponse structure
 type FeaturesOfInterestResponse struct {
 	ArrayResponse
-	Value []*FeatureOfInterest `json:"value"`
+	Value []*core.FeatureOfInterest `json:"value"`
 }
 
 // CliExport struct for importing and exporting SensorThings data
 type CliExport struct {
-	Things                     []*Thing            `json:"things"`
+	Things                     []*core.Thing            `json:"things"`
 	ThingLocations             []*Relation         `json:"thingLocations"`
 	ThingDatastreams           []*Relation         `json:"thingDatastreams"`
-	Locations                  []*Location         `json:"locations"`
-	Sensors                    []*Sensor           `json:"sensors"`
-	ObservedProperties         []*ObservedProperty `json:"observedProperties"`
-	Datastreams                []*Datastream       `json:"datastreams"`
+	Locations                  []*core.Location         `json:"locations"`
+	Sensors                    []*core.Sensor           `json:"sensors"`
+	ObservedProperties         []*core.ObservedProperty `json:"observedProperties"`
+	Datastreams                []*core.Datastream       `json:"datastreams"`
 	DatastreamSensor           []*Relation         `json:"datastreamSensor"`
 	DatastreamObservedProperty []*Relation         `json:"datastreamObservedProperty"`
 }

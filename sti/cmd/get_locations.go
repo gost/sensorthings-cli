@@ -1,6 +1,9 @@
 package cmd
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/gost/core"
+	"github.com/spf13/cobra"
+)
 
 var cmdGetLocations = &cobra.Command{
 	Use:   "locations",
@@ -8,6 +11,6 @@ var cmdGetLocations = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		fields := []string{"ID", "Name"}
-		getSTEntities(EntityTypeLocation, fields)
+		getSTEntities(core.EntityTypeLocation, fields)
 	},
 }

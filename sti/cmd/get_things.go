@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-
+	"github.com/gost/core"
 	"github.com/spf13/cobra"
 )
 
@@ -13,6 +13,6 @@ var cmdGetThings = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Start command get things...")
 		fields := []string{"ID", "Name"}
-		getSTEntities(EntityTypeThing, fields)
+		getSTEntities(core.EntityTypeThing, fields)
 	},
 }

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/gost/core"
 	"github.com/spf13/cobra"
 	"github.com/asaskevich/govalidator"
 	"fmt"
@@ -48,33 +49,33 @@ func RunImport(cmd *cobra.Command, args []string) error {
 		exitWithError(fmt.Errorf("Unable to parse file %s: %v", args[0], err))
 	}
 
-	s := make([]Entity, len(export.Locations))
+	s := make([]core.Entity, len(export.Locations))
 	for i, v := range export.Locations { s[i] = v }
-	locationMap, err := postEntities(fmt.Sprintf("%v/%v", args[1], EntityTypeLocation.GetArrayEndpoint()), s)
+	locationMap, err := postEntities(fmt.Sprintf("%v/%v", args[1], core.EntityTypeLocation.GetArrayEndpoint()), s)
 	if err != nil {
 		return err
 	}
 
-	s = make([]Entity, len(export.Sensors))
+	s = make([]core.Entity, len(export.Sensors))
 	for i, v := range export.Sensors { s[i] = v }
-	sensorMap, err := postEntities(fmt.Sprintf("%v/%v", args[1], EntityTypeSensor.GetArrayEndpoint()), s)
+	sensorMap, err := postEntities(fmt.Sprintf("%v/%v", args[1], core.EntityTypeSensor.GetArrayEndpoint()), s)
 	if err != nil {
 		return err
 	}
 
-	s = make([]Entity, len(export.ObservedProperties))
+	s = make([]core.Entity, len(export.ObservedProperties))
 	for i, v := range export.ObservedProperties { s[i] = v }
-	observedPropertiesMap, err := postEntities(fmt.Sprintf("%v/%v", args[1], EntityTypeObservedProperty.GetArrayEndpoint()), s)
+	observedPropertiesMap, err := postEntities(fmt.Sprintf("%v/%v", args[1], core.EntityTypeObservedProperty.GetArrayEndpoint()), s)
 	if err != nil {
 		return err
 	}
 
-	thingMap, err := postThings(fmt.Sprintf("%v/%v", args[1], EntityTypeThing.GetArrayEndpoint()), export.Things, export.ThingLocations, locationMap)
+	thingMap, err := postThings(fmt.Sprintf("%v/%v", args[1], core.EntityTypeThing.GetArrayEndpoint()), export.Things, export.ThingLocations, locationMap)
 	if err != nil {
 		return err
 	}
 
-	err = postDatastreams(fmt.Sprintf("%v/%v", args[1], EntityTypeDatastream.GetArrayEndpoint()), export.Datastreams, export.ThingDatastreams, export.DatastreamSensor, export.DatastreamObservedProperty, thingMap, sensorMap, observedPropertiesMap)
+	err = postDatastreams(fmt.Sprintf("%v/%v", args[1], core.EntityTypeDatastream.GetArrayEndpoint()), export.Datastreams, export.ThingDatastreams, export.DatastreamSensor, export.DatastreamObservedProperty, thingMap, sensorMap, observedPropertiesMap)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func RunImport(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func postEntities(url string, entities []Entity) (map[interface{}]interface{}, error) {
+func postEntities(url string, entities []core.Entity) (map[interface{}]interface{}, error) {
 	idMap := make(map[interface{}]interface{})
 	fmt.Printf("Posting %v entities to %v\n", len(entities),  url)
 
@@ -108,7 +109,7 @@ func postEntities(url string, entities []Entity) (map[interface{}]interface{}, e
 			return  nil, fmt.Errorf(string(body))
 		}
 
-		be := &BaseEntity{}
+		be := &core.BaseEntity{}
 		err = json.NewDecoder(resp.Body).Decode(be)
 		if err != nil{
 			return nil, err
@@ -120,12 +121,12 @@ func postEntities(url string, entities []Entity) (map[interface{}]interface{}, e
 	return idMap, nil
 }
 
-func postThings(url string, entities []*Thing, thingLocations []*Relation, locationMap map[interface{}]interface{}) (map[interface{}]interface{}, error) {
+func postThings(url string, entities []*core.Thing, thingLocations []*Relation, locationMap map[interface{}]interface{}) (map[interface{}]interface{}, error) {
 	fmt.Printf("Posting %v entities to %v\n", len(entities),  url)
 	idMap := make(map[interface{}]interface{})
 	for i := len(entities)-1; i >= 0; i-- {
 		e := entities[i]
-		e.Locations = make([]*Location, 0)
+		e.Locations = make([]*core.Location, 0)
 		for _, r := range thingLocations {
 			if r.EntityID == e.ID { // find the connected locations for thing
 				for _, id := range r.LinkedIDs {
@@ -134,7 +135,7 @@ func postThings(url string, entities []*Thing, thingLocations []*Relation, locat
 						return nil, fmt.Errorf("Linked thing location %v was not posted", id)
 					}
 
-					location := &Location{}
+					location := &core.Location{}
 					location.ID = locationID
 					e.Locations = append(e.Locations, location)
 				}
@@ -157,7 +158,7 @@ func postThings(url string, entities []*Thing, thingLocations []*Relation, locat
 			return  nil, fmt.Errorf(string(body))
 		}
 
-		be := &Thing{}
+		be := &core.Thing{}
 		err = json.NewDecoder(resp.Body).Decode(be)
 		if err != nil{
 			return nil, err
@@ -168,7 +169,7 @@ func postThings(url string, entities []*Thing, thingLocations []*Relation, locat
 	return idMap, nil
 }
 
-func postDatastreams(url string, entities []*Datastream, thingDatastreams []*Relation, datastreamSensor []*Relation, datastreamObservedProperty []*Relation, thingMap map[interface{}]interface{}, sensorMap map[interface{}]interface{}, observedPropertiesMap map[interface{}]interface{}) error {
+func postDatastreams(url string, entities []*core.Datastream, thingDatastreams []*Relation, datastreamSensor []*Relation, datastreamObservedProperty []*Relation, thingMap map[interface{}]interface{}, sensorMap map[interface{}]interface{}, observedPropertiesMap map[interface{}]interface{}) error {
 	fmt.Printf("Posting %v entities to %v\n", len(entities),  url)
 
 	for i := len(entities)-1; i >= 0; i-- {
@@ -181,7 +182,7 @@ func postDatastreams(url string, entities []*Datastream, thingDatastreams []*Rel
 					if !ok {
 						return fmt.Errorf("Thing not posted %v", r.EntityID)
 					}
-					thing := &Thing{}
+					thing := &core.Thing{}
 					thing.ID = newID
 					e.Thing = thing
 				}
@@ -199,7 +200,7 @@ func postDatastreams(url string, entities []*Datastream, thingDatastreams []*Rel
 					return fmt.Errorf("Sensor was not posted %v", ds.LinkedIDs[0])
 				}
 
-				sensor := &Sensor{}
+				sensor := &core.Sensor{}
 				sensor.ID = newID
 				e.Sensor = sensor
 			}
@@ -216,7 +217,7 @@ func postDatastreams(url string, entities []*Datastream, thingDatastreams []*Rel
 					return fmt.Errorf("ObservedProperty was not posted %v", do.LinkedIDs[0])
 				}
 
-				op := &ObservedProperty{}
+				op := &core.ObservedProperty{}
 				op.ID = newID
 				e.ObservedProperty = op
 			}
@@ -238,7 +239,7 @@ func postDatastreams(url string, entities []*Datastream, thingDatastreams []*Rel
 			return  fmt.Errorf(string(body))
 		}
 
-		be := &Thing{}
+		be := &core.Thing{}
 		err = json.NewDecoder(resp.Body).Decode(be)
 		if err != nil{
 			return err

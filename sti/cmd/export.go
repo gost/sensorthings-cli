@@ -3,6 +3,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gost/core"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
@@ -36,48 +37,48 @@ func RunExport(cmd *cobra.Command, args []string) error {
 		export := &CliExport{}
 
 		fmt.Print("Fetching Things\n")
-		export.Things, err = getAllThings(fmt.Sprintf("%v/%v%v", stServer, EntityTypeThing.GetArrayEndpoint(), ""), nil)
+		export.Things, err = getAllThings(fmt.Sprintf("%v/%v%v", stServer, core.EntityTypeThing.GetArrayEndpoint(), ""), nil)
 		if err != nil {
 			return err
 		}
 
 		for _, e := range export.Things {
-			relLocations, _ := getAllLinks(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, EntityTypeThing.GetArrayEndpoint(), e.ID, EntityTypeLocation.GetArrayEndpoint(), "?$select=id"), e.ID, nil)
+			relLocations, _ := getAllLinks(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, core.EntityTypeThing.GetArrayEndpoint(), e.ID, core.EntityTypeLocation.GetArrayEndpoint(), "?$select=id"), e.ID, nil)
 			export.ThingLocations = append(export.ThingLocations, relLocations)
 
-			relDatastreams, _ := getAllLinks(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, EntityTypeThing.GetArrayEndpoint(), e.ID, EntityTypeDatastream.GetArrayEndpoint(), "?$select=id"), e.ID, nil)
+			relDatastreams, _ := getAllLinks(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, core.EntityTypeThing.GetArrayEndpoint(), e.ID, core.EntityTypeDatastream.GetArrayEndpoint(), "?$select=id"), e.ID, nil)
 			export.ThingDatastreams = append(export.ThingDatastreams, relDatastreams)
 		}
 
 		fmt.Print("Fetching Locations\n")
-		export.Locations, err = getAllLocations(stServer+"/"+EntityTypeLocation.GetArrayEndpoint()+"?$orderby=id%20asc", nil)
+		export.Locations, err = getAllLocations(stServer+"/"+core.EntityTypeLocation.GetArrayEndpoint()+"?$orderby=id%20asc", nil)
 		if err != nil {
 			return err
 		}
 
 		fmt.Print("Fetching Sensors\n")
-		export.Sensors, err = getAllSensors(stServer+"/"+EntityTypeSensor.GetArrayEndpoint(), nil)
+		export.Sensors, err = getAllSensors(stServer+"/"+core.EntityTypeSensor.GetArrayEndpoint(), nil)
 		if err != nil {
 			return err
 		}
 
 		fmt.Print("Fetching ObservedProperties\n")
-		export.ObservedProperties, err = getAllObservedProperties(stServer+"/"+EntityTypeObservedProperty.GetArrayEndpoint(), nil)
+		export.ObservedProperties, err = getAllObservedProperties(stServer+"/"+core.EntityTypeObservedProperty.GetArrayEndpoint(), nil)
 		if err != nil {
 			return err
 		}
 
 		fmt.Print("Fetching Datastreams\n")
-		export.Datastreams, err = getAllDatastreams(stServer+"/"+EntityTypeDatastream.GetArrayEndpoint(), nil)
+		export.Datastreams, err = getAllDatastreams(stServer+"/"+core.EntityTypeDatastream.GetArrayEndpoint(), nil)
 		if err != nil {
 			return err
 		}
 
 		for _, e := range export.Datastreams {
-			relSensor, _ := getLink(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, EntityTypeDatastream.GetArrayEndpoint(), e.ID, EntityTypeSensor.GetEndpoint(), "?$select=id"), e.ID, nil)
+			relSensor, _ := getLink(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, core.EntityTypeDatastream.GetArrayEndpoint(), e.ID, core.EntityTypeSensor.GetEndpoint(), "?$select=id"), e.ID, nil)
 			export.DatastreamSensor = append(export.DatastreamSensor, relSensor)
 
-			relObs, _ := getLink(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, EntityTypeDatastream.GetArrayEndpoint(), e.ID, EntityTypeObservedProperty.GetEndpoint(), "?$select=id"), e.ID, nil)
+			relObs, _ := getLink(fmt.Sprintf("%s/%s(%v)/%s%s", stServer, core.EntityTypeDatastream.GetArrayEndpoint(), e.ID, core.EntityTypeObservedProperty.GetEndpoint(), "?$select=id"), e.ID, nil)
 			export.DatastreamObservedProperty = append(export.DatastreamObservedProperty, relObs)
 		}
 
@@ -105,9 +106,9 @@ func RunExport(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func getAllThings(url string, list []*Thing) ([]*Thing, error) {
+func getAllThings(url string, list []*core.Thing) ([]*core.Thing, error) {
 	if list == nil {
-		list = make([]*Thing, 0)
+		list = make([]*core.Thing, 0)
 	}
 
 	response := &ThingsResponse{}
@@ -161,7 +162,7 @@ func getLink(url string, id interface{}, relation *Relation) (*Relation, error) 
 		relation.EntityID = id
 	}
 
-	response := BaseEntity{}
+	response := core.BaseEntity{}
 	err := getJson(url, &response)
 	if err != nil {
 		return nil, err
@@ -171,9 +172,9 @@ func getLink(url string, id interface{}, relation *Relation) (*Relation, error) 
 	return relation, nil
 }
 
-func getAllLocations(url string, list []*Location) ([]*Location, error) {
+func getAllLocations(url string, list []*core.Location) ([]*core.Location, error) {
 	if list == nil {
-		list = make([]*Location, 0)
+		list = make([]*core.Location, 0)
 	}
 
 	response := &LocationsResponse{}
@@ -195,9 +196,9 @@ func getAllLocations(url string, list []*Location) ([]*Location, error) {
 	return list, nil
 }
 
-func getAllSensors(url string, list []*Sensor) ([]*Sensor, error) {
+func getAllSensors(url string, list []*core.Sensor) ([]*core.Sensor, error) {
 	if list == nil {
-		list = make([]*Sensor, 0)
+		list = make([]*core.Sensor, 0)
 	}
 
 	response := &SensorsResponse{}
@@ -219,9 +220,9 @@ func getAllSensors(url string, list []*Sensor) ([]*Sensor, error) {
 	return list, nil
 }
 
-func getAllObservedProperties(url string, list []*ObservedProperty) ([]*ObservedProperty, error) {
+func getAllObservedProperties(url string, list []*core.ObservedProperty) ([]*core.ObservedProperty, error) {
 	if list == nil {
-		list = make([]*ObservedProperty, 0)
+		list = make([]*core.ObservedProperty, 0)
 	}
 
 	response := &ObservedPropertiesResponse{}
@@ -243,9 +244,9 @@ func getAllObservedProperties(url string, list []*ObservedProperty) ([]*Observed
 	return list, nil
 }
 
-func getAllDatastreams(url string, list []*Datastream) ([]*Datastream, error) {
+func getAllDatastreams(url string, list []*core.Datastream) ([]*core.Datastream, error) {
 	if list == nil {
-		list = make([]*Datastream, 0)
+		list = make([]*core.Datastream, 0)
 	}
 
 	response := &DatastreamsResponse{}

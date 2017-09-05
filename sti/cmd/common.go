@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/gost/core"
 	"github.com/oleiade/reflections"
 	"github.com/spf13/viper"
 )
 
-func getSTEntities(entityType EntityType, fields []string) {
+func getSTEntities(entityType core.EntityType, fields []string) {
 	if viper.IsSet("st_server") {
 		stServer := viper.GetString("st_server")
 		url := stServer + "/" + entityType.GetArrayEndpoint()
